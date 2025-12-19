@@ -1,0 +1,9 @@
+┌──────────────────────────┐
+│   DATA INGESTION LAYER   │
+│  - Cleaning              │
+│  - Normalization         │
+│  - Deduplication         │
+└─────────────┬────────────┘
+
+Cleaning:
+Process: Cleaning is the removal of irrelevant, corrupt, or non-semantic artifacts from raw data so the remaining text accurately reflects human-readable content.
