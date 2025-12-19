@@ -1,0 +1,111 @@
+┌──────────────────────────┐
+│        DATA SOURCES      │
+│  (Docs, DBs, APIs, PDFs, │
+│   Logs, Wikis, Tickets)  │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│   DATA INGESTION LAYER   │
+│  - Cleaning              │
+│  - Normalization         │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│   CHUNKING STRATEGY      │
+│  - Semantic chunking     │
+│  - Overlap tuning        │
+│  - Hierarchical chunks   │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│   PII / ACL TAGGING      │
+│  - Chunk-level analysis  │
+│  - Sensitivity detection │
+│  - Access rules applied  │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│   EMBEDDING SERVICE      │
+│  - Versioned models      │
+│  - Batch + async         │
+└─────────────┬────────────┘
+              │
+              ▼
+┌─────────────────────────────────────────┐
+│            VECTOR STORE                 │
+│  - Embeddings                           │
+│  - Metadata (tenant, source, ACL)       │
+│  - Hybrid index (Vector + BM25)         │
+└─────────────────────────────────────────┘
+
+══════════════════════════════════════════════════
+              QUERY-TIME (ONLINE PATH)
+══════════════════════════════════════════════════
+
+┌──────────────────────────┐
+│        USER QUERY        │
+│  (+ conversation state)  │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│  QUERY PRE-PROCESSING    │
+│  - Rewrite / expand      │
+│  - Intent detection      │
+│  - Access validation     │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│   QUERY EMBEDDING        │
+│  (same model family)     │
+└─────────────┬────────────┘
+              │
+              ▼
+┌─────────────────────────────────────────┐
+│         RETRIEVAL LAYER                 │
+│  - Vector similarity search             │
+│  - Metadata filtering                   │
+│  - Hybrid (keyword + vector)            │
+└─────────────┬──────────────────────────-┘
+              │
+              ▼
+┌──────────────────────────┐
+│     RERANKING LAYER      │
+│  - Cross-encoder / LLM   │
+│  - Top-K → Top-N         │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│   CONTEXT ASSEMBLY       │
+│  - Token budgeting       │
+│  - Chunk ordering        │
+│  - Citations mapping     │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│      LLM GENERATION      │
+│  - System instructions   │
+│  - Grounded reasoning    │
+│  - Structured output     │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│   POST-PROCESSING        │
+│  - Validation            │
+│  - Hallucination check   │
+│  - Confidence score      │
+└─────────────┬────────────┘
+              │
+              ▼
+┌──────────────────────────┐
+│    RESPONSE TO USER      │
+│  (+ sources / metadata)  │
+└──────────────────────────┘
